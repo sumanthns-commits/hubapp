@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hubapp/screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,9 +21,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomeScreen(title: 'Hub App'),
     );
   }
 }
