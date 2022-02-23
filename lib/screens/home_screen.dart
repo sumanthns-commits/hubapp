@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hubapp/services/auth_service.dart';
+import 'package:hubapp/views/hubs_view.dart';
+import 'package:hubapp/widgets/hub_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   final String title;
@@ -24,28 +26,28 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isProgressing)
-              CircularProgressIndicator()
-            else if (!isLoggedIn)
-              TextButton(
-                onPressed: loginAction,
-                child: Text('Login | Register'),
-              )
-            else ...[
-              Text(
-                'Welcome $name !',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: logoutAction,
-                child: Text('Logout'),
-              )
+      drawer: HubDrawer(isLoggedIn: isLoggedIn, logoutAction: logoutAction),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isProgressing)
+                CircularProgressIndicator()
+              else if (!isLoggedIn)
+                TextButton(
+                  onPressed: loginAction,
+                  child: Text('Login | Register'),
+                )
+              else ...[
+                Text(
+                  'Welcome $name !',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                HubsView(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
