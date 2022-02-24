@@ -1,25 +1,42 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hubapp/providers/hub_provider.dart';
+import 'package:hubapp/views/hub_tile.dart';
 import 'package:provider/provider.dart';
 
 class HubsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var hubsProvider = context.watch<HubProvider>();
-    Future<void> hubsFuture = Future.value();
-    if (hubsProvider.hubs.isEmpty) {
-      hubsFuture = hubsProvider.loadHubs();
-    }
-    return FutureBuilder<void>(
-        future: hubsFuture,
-        builder: (BuildContext innerContext, AsyncSnapshot<void> snapshot) {
-          return ListView(
-            children: hubsProvider.hubs
-                .map((hub) => Container(
-                      child: Text(hub.id),
-                    ))
-                .toList(),
-          );
-        });
+
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (hubsProvider.hubs.isEmpty) ...[
+            Text(
+              'You don\'t have any hubs yet :(',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+          ...hubsProvider.hubs.map((hub) => HubTile(hub: hub)).toList(),
+          OutlinedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/create');
+              },
+              icon: const Icon(
+                Icons.add,
+                size: 18,
+              ),
+              label: Text('Create new hub')),
+        ],
+      ),
+    );
   }
 }

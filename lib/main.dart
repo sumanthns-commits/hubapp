@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hubapp/providers/hub_provider.dart';
+import 'package:hubapp/screens/create_hub_screen.dart';
 import 'package:hubapp/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,18 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.red,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.red,
+          ).copyWith(
+            secondary: Colors.white,
+          ),
+          textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.red)),
         ),
         initialRoute: '/',
-        routes: {'/': (_) => HomeScreen(title: 'Hub App')},
+        routes: {
+          '/': (_) => HomeScreen(title: 'Hubs'),
+          '/create': (_) => CreateHubScreen(),
+        },
       ),
     );
   }

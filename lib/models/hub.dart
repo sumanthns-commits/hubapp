@@ -8,9 +8,9 @@ class Hub {
   @JsonKey(name: "hubId")
   final String id;
 
-  final String description;
+  final String name;
 
-  final String status;
+  final String description;
 
   final DateTime createdAt;
 
@@ -18,8 +18,8 @@ class Hub {
 
   final List<Thing> things;
 
-  Hub(this.id, this.description, this.status, this.createdAt, this.updatedAt,
-      this.things);
+  Hub(this.id, this.description, this.createdAt, this.updatedAt, this.things,
+      this.name);
 
   factory Hub.fromJson(Map<String, dynamic> json) => _$HubFromJson(json);
 

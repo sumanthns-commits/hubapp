@@ -9,18 +9,18 @@ part of 'hub.dart';
 Hub _$HubFromJson(Map<String, dynamic> json) => Hub(
       json['hubId'] as String,
       json['description'] as String,
-      json['status'] as String,
       DateTime.parse(json['createdAt'] as String),
       DateTime.parse(json['updatedAt'] as String),
       (json['things'] as List<dynamic>)
           .map((e) => Thing.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['name'] as String,
     );
 
 Map<String, dynamic> _$HubToJson(Hub instance) => <String, dynamic>{
       'hubId': instance.id,
+      'name': instance.name,
       'description': instance.description,
-      'status': instance.status,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'things': instance.things,

@@ -12,10 +12,9 @@ class HubService {
   HubService._internal();
 
   Future<Hub> createHub(HubRequest hubRequest) async {
-    var authService = AuthService.instance;
     var url = Uri.https(HUB_API_DOMAIN, '/api/hubs');
     var response = await http.post(url,
-        headers: {'Authorization': 'Bearer ${authService.auth0AccessToken}'});
+        headers: _getHeaders(), body: json.encode(hubRequest.toJson()));
     var responseBody = json.decode(response.body);
     if (response.statusCode == 201) {
       return Hub.fromJson(responseBody);
@@ -25,10 +24,8 @@ class HubService {
   }
 
   Future<List<Hub>> listHubs() async {
-    var authService = AuthService.instance;
     var url = Uri.https(HUB_API_DOMAIN, '/api/hubs');
-    var response = await http.get(url,
-        headers: {'Authorization': 'Bearer ${authService.auth0AccessToken}'});
+    var response = await http.get(url, headers: _getHeaders());
     var responseBody = json.decode(response.body);
     if (response.statusCode == 200) {
       return (responseBody as List<dynamic>)
@@ -37,5 +34,14 @@ class HubService {
     }
     throw Exception(
         'Hub listing failed, status: ${response.statusCode}, body: $responseBody');
+  }
+
+  Map<String, String> _getHeaders() {
+    var authService = AuthService.instance;
+    return {
+      'Authorization': 'Bearer ${authService.auth0AccessToken}',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
   }
 }

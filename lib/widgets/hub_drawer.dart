@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hubapp/services/auth_service.dart';
 
 class HubDrawer extends StatelessWidget {
   final bool isLoggedIn;

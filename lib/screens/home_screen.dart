@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hubapp/providers/hub_provider.dart';
 import 'package:hubapp/services/auth_service.dart';
 import 'package:hubapp/views/hubs_view.dart';
 import 'package:hubapp/widgets/hub_drawer.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final String title;
@@ -25,31 +27,29 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
+        actions: [
+          isLoggedIn
+              ? IconButton(
+                  onPressed: logoutAction,
+                  icon: const Icon(
+                    Icons.logout,
+                    size: 30,
+                  ))
+              : Text('')
+        ],
       ),
-      drawer: HubDrawer(isLoggedIn: isLoggedIn, logoutAction: logoutAction),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isProgressing)
-                CircularProgressIndicator()
-              else if (!isLoggedIn)
-                TextButton(
-                  onPressed: loginAction,
-                  child: Text('Login | Register'),
+      body: isProgressing
+          ? Center(child: CircularProgressIndicator())
+          : isLoggedIn
+              ? SingleChildScrollView(
+                  child: HubsView(),
                 )
-              else ...[
-                Text(
-                  'Welcome $name !',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              : Center(
+                  child: TextButton(
+                    onPressed: () => loginAction(context),
+                    child: Text('Login | Register'),
+                  ),
                 ),
-                HubsView(),
-              ],
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -74,10 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> loginAction() async {
+  Future<void> loginAction(BuildContext context) async {
     setLoadingState();
     final message = await AuthService.instance.login();
     if (message == 'Success') {
+      await context.read<HubProvider>().loadHubs();
       setSuccessAuthState();
     } else {
       setState(() {
@@ -91,12 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
     setLoadingState();
     final bool isAuth = await AuthService.instance.init();
     if (isAuth) {
-      setSuccessAuthState();
+      await _loginSuccessSifeEffect();
     } else {
       setState(() {
         isProgressing = false;
       });
     }
+  }
+
+  Future<void> _loginSuccessSifeEffect() async {
+    await context.read<HubProvider>().loadHubs();
+    setSuccessAuthState();
   }
 
   logoutAction() async {
