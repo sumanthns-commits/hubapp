@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hubapp/models/hub.dart';
+import 'package:hubapp/screens/hub_detail_screen.dart';
 import 'package:intl/intl.dart';
 
 class HubTile extends StatelessWidget {
@@ -46,7 +47,12 @@ class HubTile extends StatelessWidget {
                 ],
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      HubDetailScreen.routeName,
+                      arguments: hub.id,
+                    );
+                  },
                   icon: Icon(
                     Icons.arrow_forward_ios,
                     color: Theme.of(context).colorScheme.primary,

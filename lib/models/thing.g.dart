@@ -12,10 +12,12 @@ Thing _$ThingFromJson(Map<String, dynamic> json) => Thing(
       json['status'] as String,
       DateTime.parse(json['createdAt'] as String),
       DateTime.parse(json['updatedAt'] as String),
+      json['name'] as String,
     );
 
 Map<String, dynamic> _$ThingToJson(Thing instance) => <String, dynamic>{
       'thingId': instance.id,
+      'name': instance.name,
       'description': instance.description,
       'status': instance.status,
       'createdAt': instance.createdAt.toIso8601String(),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hubapp/providers/hub_provider.dart';
+import 'package:hubapp/screens/create_hub_screen.dart';
 import 'package:hubapp/views/hub_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class HubsView extends StatelessWidget {
           ...hubsProvider.hubs.map((hub) => HubTile(hub: hub)).toList(),
           OutlinedButton.icon(
               onPressed: () {
-                Navigator.of(context).pushNamed('/create');
+                Navigator.of(context).pushNamed(CreateHubScreen.routeName);
               },
               icon: const Icon(
                 Icons.add,

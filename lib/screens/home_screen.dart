@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hubapp/providers/hub_provider.dart';
 import 'package:hubapp/services/auth_service.dart';
 import 'package:hubapp/views/hubs_view.dart';
-import 'package:hubapp/widgets/hub_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final String title;
+  static const String routeName = '/';
 
   HomeScreen({Key? key, required this.title}) : super(key: key);
 

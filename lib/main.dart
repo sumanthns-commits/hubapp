@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hubapp/models/hub.dart';
 import 'package:hubapp/providers/hub_provider.dart';
+import 'package:hubapp/screens/add_thing_screen.dart';
 import 'package:hubapp/screens/create_hub_screen.dart';
 import 'package:hubapp/screens/home_screen.dart';
+import 'package:hubapp/screens/hub_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -34,10 +37,14 @@ class MyApp extends StatelessWidget {
           ),
           textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.red)),
         ),
-        initialRoute: '/',
+        initialRoute: HomeScreen.routeName,
         routes: {
-          '/': (_) => HomeScreen(title: 'Hubs'),
-          '/create': (_) => CreateHubScreen(),
+          HomeScreen.routeName: (_) => HomeScreen(title: 'Hubs'),
+          CreateHubScreen.routeName: (_) => CreateHubScreen(),
+          HubDetailScreen.routeName: (context) => HubDetailScreen(
+              hubId: ModalRoute.of(context)?.settings.arguments as String),
+          AddThingScreen.routeName: (context) => AddThingScreen(
+              hub: ModalRoute.of(context)?.settings.arguments as Hub),
         },
       ),
     );
